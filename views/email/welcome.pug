@@ -1,0 +1,17 @@
+extends baseEmail
+
+block content
+    p #{name},
+    p שלום וברוכים הבאים ל-JAS!
+    p אנחנו שמחים שהגעת 🎉🙏
+    table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+        tbody
+            tr
+                td(align='left')
+                    table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+                        tbody
+                            tr
+                                td
+                                    a(href=`${url}`, target='_blank') הכנס לראות את המוצרים והגלריה שלנו
+    p נתראה בקרוב,
+    p צוות JAS
