@@ -17,6 +17,7 @@ router.patch(
     authController.updatePassword
 );
 
+// the update and delete are protected with the "protect" middleware
 router.patch('/updateMe', authController.protect, userController.updateMe);
 router.delete('/deleteMe', authController.protect, userController.deleteMe);
 

@@ -1,14 +1,13 @@
 const express = require('express');
 const itemController = require('../controllers/itemController');
 const authController = require('../controllers/authController');
-const userController = require("../controllers/userController");
 
 const router = express.Router();
 
 
 router
     .route('/')
-    .get(/*authController.protect,*/ itemController.getAllItems)
+    .get(itemController.getAllItems)
     .post(itemController.createItem);
 
 router
@@ -17,13 +16,9 @@ router
     .patch(itemController.updateItem)
     .delete(
         authController.protect,
-        authController.restrictTo('admin', 'lead-guide'),
+        authController.restrictTo('admin', 'lead-guide'), //only admins can delete items
         itemController.deleteItem
     );
 
-
-// router
-//     .route('/:itemId/addToCart')
-//     .post(authController.protect, /*authController.restrictTo('users')*/ itemController.addToCart)
 
 module.exports = router;

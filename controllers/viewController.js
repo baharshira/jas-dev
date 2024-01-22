@@ -1,7 +1,7 @@
 const Item = require('../models/itemModel')
 const User = require('../models/userModel')
 const Cart = require('../models/cartModel')
-const mongoose = require('mongoose')
+
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('./../utils/appError')
 
@@ -20,13 +20,10 @@ exports.getItems = catchAsync(async (req, res) => {
 
 exports.getItem = catchAsync(async (req, res, next) => {
     try {
-        console.log('Params:', req.params._id);
-        const id = req.params._id;
-        console.log('id is', id);
+        const id = req.params._id; // the id of the item is part of the params
         const item = await Item.findById(id).populate({
-            path: 'item'
+            path: 'item' // used to populate a referenced field
         });
-        console.log('item is', item)
         if (!item) {
             return next(new AppError('There is no such item!', 404))
         }
@@ -92,7 +89,8 @@ exports.getMyCart = async (req, res) => {
 
     // 2) Find carts with the returned id
     const itemIds = cart.map(el => el.item);
-    const items = await Item.find({ _id: { $in: itemIds} })
+    const items = await Item.find({ _id: { $in: itemIds} }) // in the cart, only items that a user bought will appear
+    // the find method using the objectId reference of the user and the item
     res.status(200).render('items', {
         title: 'המוצרים שלי',
         items: items

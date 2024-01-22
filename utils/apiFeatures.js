@@ -1,18 +1,22 @@
 class APIFeatures {
     constructor(query, queryString) {
+        // Initialize the class with a Mongoose query and the request query string
         this.query = query;
         this.queryString = queryString;
     }
 
     filter() {
         const queryObj = { ...this.queryString };
+        // Define fields to be excluded from filtering
         const excludedFields = ['page', 'sort', 'limit', 'fields'];
+        // Remove excluded fields from the copied query object
         excludedFields.forEach(el => delete queryObj[el]);
 
         // 1B) Advanced filtering
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
+        // Apply the filtered query to the class query property
         this.query = this.query.find(JSON.parse(queryStr));
 
         return this;

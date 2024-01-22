@@ -54,6 +54,8 @@ const userSchema = new mongoose.Schema({
     ]
 });
 
+
+// populating the cart with a user reference
 userSchema.pre('/^find/',function(next) {
     this.populate({
         path: 'cart'

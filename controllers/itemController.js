@@ -26,7 +26,7 @@ exports.getItem = catchAsync(async (req, res, next) => {
     const item = await Item.findById(req.params._id);
 
     if (!item) {
-        return next(new AppError('No tour found with that ID', 404));
+        return next(new AppError('No item found with that ID', 404));
     }
 
     res.status(200).json({
@@ -35,7 +35,6 @@ exports.getItem = catchAsync(async (req, res, next) => {
             item: item
         }
     });
-    // next();
 });
 
 exports.createItem = catchAsync(async (req, res, next) => {
@@ -52,7 +51,7 @@ exports.createItem = catchAsync(async (req, res, next) => {
 exports.updateItem = catchAsync(async (req, res, next) => {
     const item = await Item.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
-        runValidators: true
+        runValidators: true //validating the inserted params
     });
 
     if (!item) {
@@ -76,11 +75,7 @@ exports.deleteItem = catchAsync(async (req, res, next) => {
 
     res.status(204).json({
         status: 'success',
-        data: null
+        data: null // assigning null in order to delete this item from db
     });
 });
 
-//
-// exports.addToCart = catchAsync(async (req, res) => {
-//
-// })

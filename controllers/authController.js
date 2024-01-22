@@ -10,6 +10,7 @@ const signToken = id => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN
     });
+    // the token's secret is an env variable
 };
 
 const createSendToken = (user, statusCode, res) => {
@@ -17,17 +18,17 @@ const createSendToken = (user, statusCode, res) => {
     if (isNaN(expirationTime)) {
         throw new Error('Invalid value for JWT_COOKIE_EXPIRES_IN');
     }
-    const token = signToken(user._id);
+    const token = signToken(user._id); // create new token
     const cookieOptions = {
         expires: new Date(Date.now() + expirationTime * 24 * 60 * 60 * 1000),
         httpOnly: true
     };
 
-    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true; // on production, cookies will be secured
 
     res.cookie('jwt', token, cookieOptions);
 
-    // Remove password from output
+    // Remove password from output, for security
     user.password = undefined;
 
     res.status(statusCode).json({
@@ -49,9 +50,9 @@ exports.signup = catchAsync(async (req, res, next) => {
         passwordConfirm: req.body.passwordConfirm
     });
 
+    // Whenever a new user sings in, he'll get a welcome email (Only on production):
     const url = `${req.protocol}://${req.get('host')}/`;
-    // console.log(url);
-    await new Email(newUser, url).sendWelcome();
+    await new Email(newUser, url).sendWelcome();  // Generates an email object and uses a pug template for sending welcome
 
     createSendToken(newUser, 201, res);
 });
@@ -78,12 +79,14 @@ exports.login = catchAsync(async (req, res, next) => {
 
 exports.logout = (req, res) => {
     res.cookie('jwt', 'loggedout', {
-        expires: new Date(Date.now() + 10 * 1000),
+        expires: new Date(Date.now() + 10 * 1000), // set cookie's expiration date for now
         httpOnly: true
     });
     res.status(200).json({ status: 'success' });
 };
 
+
+// this controller protect routes, for example - user personal info or sensitive data
 exports.protect = catchAsync(async (req, res, next) => {
     // 1) Getting token and check of it's there
     let token;
@@ -91,7 +94,7 @@ exports.protect = catchAsync(async (req, res, next) => {
         req.headers.authorization &&
         req.headers.authorization.startsWith('Bearer')
     ) {
-        token = req.headers.authorization.split(' ')[1];
+        token = req.headers.authorization.split(' ')[1]; // using split to isolate the token
     } else if (req.cookies.jwt) {
         token = req.cookies.jwt;
     }
@@ -103,7 +106,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     }
 
     // 2) Verification token
-    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET); // verify the token using the jwt secret
 
     // 3) Check if user still exists
     const currentUser = await User.findById(decoded.id);

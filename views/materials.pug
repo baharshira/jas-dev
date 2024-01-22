@@ -1,5 +1,9 @@
 extends base
 
 block content
-
-    h1 hi here are all the materials!s
+    div.container-searchbar
+        h1 ברוכים הבאים!
+        h2 פה ניתן לחפש חומרים שיצאו מכלל שימוש
+        input#search-bar(type='text', placeholder='אני מחפש...')
+        button.btn#search-btn(type='button') חפש
+        div#materials-list

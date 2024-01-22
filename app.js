@@ -14,6 +14,7 @@ const itemRouter = require('./routes/itemRoutes');
 const userRouter = require('./routes/userRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const cartRouter = require('./routes/cartRoutes');
+const materialsRouter = require('./routes/materialsRoutes');
 
 const app = express();
 app.set('view engine', 'pug')
@@ -67,7 +68,6 @@ app.use(
 );
 
 
-
 // Test middleware
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
@@ -78,8 +78,9 @@ app.use((req, res, next) => {
 // 3) ROUTES
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/users', userRouter);
-app.use('/api/v1/cart', cartRouter)
-app.use('/', viewRouter)
+app.use('/api/v1/cart', cartRouter);
+app.use('/api/v1/materials', materialsRouter);
+app.use('/', viewRouter);
 
 
 app.all('*', (req, res, next) => {

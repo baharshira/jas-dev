@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+
+// the item and user containing a reference to a user object and item object
 const cartSchema = new mongoose.Schema({
     item: {
         type: mongoose.Schema.ObjectId,
@@ -25,6 +27,7 @@ const cartSchema = new mongoose.Schema({
     }
 })
 
+// populating the user and item in the cart schema
 cartSchema.pre(/^find/, function (next) {
     this.populate('user').populate({
         path: 'item',

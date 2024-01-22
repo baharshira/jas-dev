@@ -7,13 +7,13 @@ const AppError = require('../utils/appError');
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};
     Object.keys(obj).forEach(el => {
-        if (allowedFields.includes(el)) newObj[el] = obj[el];
+        if (allowedFields.includes(el)) newObj[el] = obj[el]; //filtering and checking the allowed fields
     });
     return newObj;
 };
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
-    const users = await User.find()/*.populate('cart');*/
+    const users = await User.find()
 
 
     // SEND RESPONSE
@@ -63,58 +63,13 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
     });
 });
 
-// exports.addToCart = catchAsync(async (req, res) => {
-//   try {
-//     const { userId, itemId } = req.body;
-//     const user = await User.findById(userId);
-//     const item = await Item.findById(itemId);
-//
-//     if (!user || !item) {
-//       return res.status(404).json({ success: false, message: 'User or Item not found' });
-//     } else {
-//       // Push the itemId to the cart array
-//       user.cart.push({ itemId: item._id });
-//
-//       // Save the updated user document
-//       await user.save();
-//
-//       res.status(200).json({ success: true, data: user.cart });
-//     }
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: error.message
-//     });
-//   }
-// });
-
-
-
 
 exports.getUser = (req, res) => {
     res.status(500).json({
         status: 'error',
         message: 'This route is not yet defined!'
     });
-    // try {
-    //   const cart = await User.findById(req.params.id).populate('cart')
-    //   console.log('cart is',cart)
-    //   if (!cart){
-    //     return next(new AppError('No cart with that user id!'))
-    //   }
-    //   else {
-    //     res.status(200).json({
-    //       status: 'success',
-    //       cart
-    //     })
-    //   }
-    // }
-    // catch(err){
-    //   res.status(400).json({
-    //     status: 'fail',
-    //     'message': err.message
-    //   })
-    // }
+
 };
 
 exports.createUser = (req, res) => {

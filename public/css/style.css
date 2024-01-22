@@ -1272,3 +1272,70 @@ body {
     -webkit-transform: translateY(-2px);
     transform: translateY(-2px);
 }
+
+.search-bar-container {
+    max-width: 800px;
+    margin: 50px auto;
+}
+
+#search-bar {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#result-list {
+    list-style: none;
+    padding: 0;
+}
+
+#result-list li {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+#result-list li:hover {
+    background-color: #f0f0f0;
+}
+
+.container-searchbar {
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+#search-bar {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#search-btn {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    font-size: 15px; /* Adjust the font size as needed */
+    background-color: #cbd5a2;
+    color: white;
+    cursor: pointer;
+    text-align: center; /* Center the text */
+    margin-bottom: 10px;
+}
+
+#materials-list {
+    list-style: none;
+    padding: 0;
+}
+
+.material-card {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px; /* Adjust the font size as needed */
+}
+
+.card-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
