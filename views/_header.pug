@@ -1,0 +1,15 @@
+// HEADER
+header.header
+    nav.nav.nav--tours
+        a.nav__el(href='/') JAS
+    if user
+        nav.nav.nav--user
+            a.nav__el.nav--user(href='/me')=`שלום ${user.name}`
+            a.nav__el(href='/materials') חומרים
+            a.nav__el(href='/items') מוצרים
+            a.nav__el.nav--cart(href='/cart')
+                img(src='/images/icons8-shopping-cart-50.png', alt='Shopping Cart')
+    else
+        nav.nav
+            a.nav__el(href='/signup').nav__el--cta הרשם
+            a.nav__el(href='/login').nav__el--cta התחבר
