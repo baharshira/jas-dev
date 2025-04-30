@@ -20,7 +20,7 @@ exports.getItems = catchAsync(async (req, res) => {
 
 exports.getItem = catchAsync(async (req, res, next) => {
     try {
-        const id = req.params._id; // the id of the item is part of the params
+        const id = req.params._id;
         const item = await Item.findById(id).populate({
             path: 'item' // used to populate a referenced field
         });
