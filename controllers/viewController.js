@@ -22,7 +22,7 @@ exports.getItem = catchAsync(async (req, res, next) => {
     try {
         const id = req.params._id;
         const item = await Item.findById(id).populate({
-            path: 'item' // used to populate a referenced field
+            path: 'item'
         });
         if (!item) {
             return next(new AppError('There is no such item!', 404))
