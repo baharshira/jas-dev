@@ -7,7 +7,7 @@ const AppError = require('../utils/appError');
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};
     Object.keys(obj).forEach(el => {
-        if (allowedFields.includes(el)) newObj[el] = obj[el]; //filtering and checking the allowed fields
+        if (allowedFields.includes(el)) newObj[el] = obj[el];
     });
     return newObj;
 };
@@ -15,8 +15,6 @@ const filterObj = (obj, ...allowedFields) => {
 exports.getAllUsers = catchAsync(async (req, res, next) => {
     const users = await User.find()
 
-
-    // SEND RESPONSE
     res.status(200).json({
         status: 'success',
         results: users.length,
@@ -27,7 +25,6 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-    // 1) Create error if user POSTs password data
     if (req.body.password || req.body.passwordConfirm) {
         return next(
             new AppError(
@@ -37,10 +34,8 @@ exports.updateMe = catchAsync(async (req, res, next) => {
         );
     }
 
-    // 2) Filtered out unwanted fields names that are not allowed to be updated
     const filteredBody = filterObj(req.body, 'name', 'email');
 
-    // 3) Update user document
     const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
         new: true,
         runValidators: true
