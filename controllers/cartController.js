@@ -8,10 +8,8 @@ const Cart = require('../models/cartModel')
 
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
-    // 1) Get the currently item in cart
     const item = await Item.findById(req.params.id)
 
-    // 2) Create checkout session in stripe (payment session) and define the params
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         success_url: `${req.protocol}://${req.get('host')}/?item=${req.params.id}&user=${req.user.id}&price=${item.price}`,
@@ -21,15 +19,14 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         mode: 'subscription',
         line_items:[
             {
-                price: 'price_1OXh1xL2md4Fp61OpJHMxyuy', // I'll change it later to be item.price, right now having some issue with that
+                price: 'price_1OXh1xL2md4Fp61OpJHMxyuy', 
                 quantity: 1
             }
         ]
     });
-    // 3) Create session as response
     res.status(200).json({
         status: 'success',
-        session: session // redirect to the stripe session page
+        session: session
     })
     next();
 })
