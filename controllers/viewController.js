@@ -84,13 +84,10 @@ exports.materials = (req, res) => {
 
 exports.getMyCart = async (req, res) => {
 
-    // 1) Find all carts
     const cart = await Cart.find({user: req.user.id})
 
-    // 2) Find carts with the returned id
     const itemIds = cart.map(el => el.item);
-    const items = await Item.find({ _id: { $in: itemIds} }) // in the cart, only items that a user bought will appear
-    // the find method using the objectId reference of the user and the item
+    const items = await Item.find({ _id: { $in: itemIds} }) 
     res.status(200).render('items', {
         title: 'המוצרים שלי',
         items: items
