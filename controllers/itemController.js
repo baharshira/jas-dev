@@ -12,7 +12,6 @@ exports.getAllItems = catchAsync(async (req, res, next) => {
         .paginate();
     const items = await features.query;
 
-    // SEND RESPONSE
     res.status(200).json({
         status: 'success',
         results: items.length,
@@ -51,7 +50,7 @@ exports.createItem = catchAsync(async (req, res, next) => {
 exports.updateItem = catchAsync(async (req, res, next) => {
     const item = await Item.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
-        runValidators: true //validating the inserted params
+        runValidators: true
     });
 
     if (!item) {
@@ -75,7 +74,7 @@ exports.deleteItem = catchAsync(async (req, res, next) => {
 
     res.status(204).json({
         status: 'success',
-        data: null // assigning null in order to delete this item from db
+        data: null
     });
 });
 
